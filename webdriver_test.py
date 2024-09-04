@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
-load_dotenv(".env")
+load_dotenv()
 chromedriver = '/usr/local/bin/chrome-mac-arm64'
 driver = webdriver.Chrome()
 driver.get('https://www.code.org/')
@@ -19,14 +19,16 @@ close_buttons = driver.find_elements(By.XPATH, "//span[@aria-hidden='true' and t
 if close_buttons:
     close_button = close_buttons[0]  # Get the first one
 close_button.click()
-time.sleep(1)
+time.sleep(3)
 
 signin_button = driver.find_element(By.ID, 'signin_button')
 signin_button.click()
-time.sleep(2)
+time.sleep(5)
 
 login_email = driver.find_element(By.ID, 'user_login')
+time.sleep(2)
 login_email.send_keys(os.getenv('ACCOUNT'))
+time.sleep(2)
 login_password = driver.find_element(By.ID, 'user_password')
 login_password.send_keys(os.getenv('PASSWORD'))
 time.sleep(2)
@@ -80,7 +82,8 @@ WebDriverWait(driver, 10).until(
 tag_name = driver.find_element(By.XPATH, f"//span[text()='{name}']")
 
 # 找到父元素
-tag_name_parent = tag_name.find_element(By.XPATH, "./ancestor::*[3]")  # 假設是第三級祖先元素
+tag_name_parents = tag_name.find_elements(By.XPATH, "./ancestor::*[4]")  # 假設是第三級祖先元素
+tag_name_parent = tag_name_parents[0]
 
 # 在父元素中尋找符合特定類別的子元素
 target_class = "uitest-show-picture-or-word RgEAWGSURVHXgsym55ZC SfFcj2dNRCSSkdsG0JWm SpnpMKQTi1rIE2H6S2st pUlkLwlwitRrefPiTBSj"
