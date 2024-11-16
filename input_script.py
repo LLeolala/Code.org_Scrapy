@@ -8,6 +8,3 @@ def input_script():
     globals.bir = arguments[2]
     # print(globals.bir)
     globals.level = arguments[3]
-
-
-

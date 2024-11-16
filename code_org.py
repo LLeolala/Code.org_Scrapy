@@ -29,7 +29,7 @@ def code_org(name, bir):
     time.sleep(2)
     login_email = driver.find_element(By.ID, 'user_login')
 
-    login_email.send_keys(os.getenv('ACCOUNT'))
+    login_email.send_keys(os.getenv('GMAIL'))
     login_password = driver.find_element(By.ID, 'user_password')
     login_password.send_keys(os.getenv('PASSWORD'))
 
@@ -39,10 +39,8 @@ def code_org(name, bir):
     time.sleep(1)
     link = driver.find_element(By.PARTIAL_LINK_TEXT, os.getenv('CLASS_NAME'))
     link.click()
-# Ad
-# close_buttons = driver.find_elements(By.ID, 'ui-close-dialog')
-# close_button = close_buttons[0]
-# close_button.click()
+
+
     time.sleep(1)
 
     student_link = driver.find_element(By.PARTIAL_LINK_TEXT, "Manage Students")
