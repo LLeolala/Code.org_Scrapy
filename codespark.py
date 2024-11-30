@@ -11,11 +11,18 @@ from selenium.webdriver.common.action_chains import ActionChains
 import os
 import time
 
-def codespark(name, bir):
+def codespark(name, bir, level):
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     wait = WebDriverWait(driver, 10)  # Create WebDriverWait object with 10 second timeout
     load_dotenv()
-    
+
+    account = os.getenv('CODESPARK_ACCOUNT')
+    class_name = os.getenv('CODESPARK_CLASS_NAME')
+    password = os.getenv('CODESPARK_PASSWORD')
+    if (not account or not class_name or not password):
+        print('error', 'name: ' + str(account), 'class_name: ' + str(class_name), 'password: ' + str(password))
+        return
+
     
     driver.get('https://dashboard.codespark.com/')
     driver.maximize_window()
@@ -29,13 +36,13 @@ def codespark(name, bir):
         EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='text'][name='login-email']"))
     )
     email_input.clear()
-    email_input.send_keys(os.getenv('GMAIL'))
+    email_input.send_keys(account)
     
     password_input = wait.until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='password'][name='login-password']"))
     )
     password_input.clear()
-    password_input.send_keys(os.getenv('PASSWORD'))
+    password_input.send_keys(password)
     
     submit_button = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//input[@id='login-submit' and @type='submit']"))
@@ -55,7 +62,7 @@ def codespark(name, bir):
     
     # Wait and click title
     title = wait.until(
-        EC.element_to_be_clickable((By.XPATH, f"//h2[@class='title title--classroom' and text()='{os.getenv('CLASS_NAME')}']"))
+        EC.element_to_be_clickable((By.XPATH, f"//h2[@class='title title--classroom' and text()='{class_name}']"))
     )
     title.click()
     
@@ -83,4 +90,3 @@ def codespark(name, bir):
     driver.execute_script(js, button)
     time.sleep(1)
     button.click()
-    
