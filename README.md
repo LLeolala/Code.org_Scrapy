@@ -30,7 +30,7 @@ pip install webdriver-manager
 ```plaintext
 CODE_ORG_ACCOUNT=你的 Code.org 帳號
 CODE_ORG_PASSWORD=你的 Code.org 密碼
-CODESPARK_CLASS_NAME=Code.org 班級名稱
+CODE_ORG_CLASS_NAME=Code.org 班級名稱
 CODESPARK_ACCOUNT=你的 Codespark 帳號
 CODESPARK_PASSWORD=你的 Codespark 密碼
 CODESPARK_CLASS_NAME=Codespark 班級名稱

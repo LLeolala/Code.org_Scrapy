@@ -19,3 +19,4 @@ def input_script():
     print(globals.bir)
 
 ```
+
