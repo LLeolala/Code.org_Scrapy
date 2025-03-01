@@ -7,4 +7,3 @@ def input_script():
     # print(globals.name)
     globals.bir = arguments[2]
     # print(globals.bir)
-    globals.level = arguments[3]

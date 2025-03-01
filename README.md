@@ -34,6 +34,13 @@ CODE_ORG_CLASS_NAME=Code.org 班級名稱
 CODESPARK_ACCOUNT=你的 Codespark 帳號
 CODESPARK_PASSWORD=你的 Codespark 密碼
 CODESPARK_CLASS_NAME=Codespark 班級名稱
+TYPING_ACCOUNT=你的 Typing.com 帳號
+TYPING_PASSWORD=你的 Typing.com 密碼
+TYPING_CLASS_NAME=Typing.com 班級名稱
+EMAIL=Email
+EMAIL_PASSWORD=Email 密碼
+GOOGLE_ADDRESS=Google帳號地址
+
 ```
 
 ## 檔案結構
@@ -43,8 +50,9 @@ CODESPARK_CLASS_NAME=Codespark 班級名稱
 ├── input_script.py    # 處理命令列參數
 ├── code_org.py        # Code.org 自動化腳本
 ├── codespark.py       # CodeSpark 自動化腳本
+├── typing_com.py      # Typing.com 自動化腳本
 ├── globals.py         # 全域變數
-└── .env              # 環境變數設定
+└── .env               # 環境變數設定
 ```
 
 ## 使用方法

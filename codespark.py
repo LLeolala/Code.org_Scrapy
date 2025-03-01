@@ -11,7 +11,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import os
 import time
 
-def codespark(name, bir, level):
+def codespark(name, bir):
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     wait = WebDriverWait(driver, 10)  # Create WebDriverWait object with 10 second timeout
     load_dotenv()
@@ -79,6 +79,8 @@ def codespark(name, bir, level):
     textarea.clear()
     
     no_years_bir = int(bir) % 10000
+    if(no_years_bir // 1000 < 1):
+        no_years_bir = str('0') + str( no_years_bir)
     name = str(name) + str(no_years_bir)
     textarea.send_keys(name)
     

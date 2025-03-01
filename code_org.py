@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+import time
 
 def code_org(name, bir):
     # Initialize WebDriver with explicit wait setup
@@ -31,14 +32,14 @@ def code_org(name, bir):
     # Navigate to website
     driver.get('https://www.code.org/')
     driver.maximize_window()
-
+    
     # Wait and close initial popup
     try:
         close_buttons = wait.until(
             EC.presence_of_all_elements_located((By.XPATH, "//span[@aria-hidden='true' and text()='×']"))
         )
         if close_buttons:
-            close_buttons[0].click()
+            close_buttons[1].click()
     except Exception as e:
         print("No close button found or error closing:", str(e))
 
@@ -69,13 +70,15 @@ def code_org(name, bir):
     link.click()
 
     # Navigate to Manage Students
-    student_link = wait.until(
-        EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, "Manage Students"))
-    )
-    student_link.click()
+    elements = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "l73WWV9XeuD321FND147")))
+    element=elements[8]
+    element.click()
+
 
     # Prepare student name
     no_years_bir = int(bir) % 10000
+    if(no_years_bir // 1000 < 1):
+        no_years_bir = str('0') + str( no_years_bir)
     name = str(name) + str(no_years_bir)
 
     # Input student name
@@ -107,7 +110,7 @@ def code_org(name, bir):
     # Retrieve password
     password_address = parent_element.find_element(By.XPATH, './td[5]/div/div/div/div/p')
     password_text = password_address.text
-    print(password_text)
+    return password_text
     
     # Optional: Close browser
 
