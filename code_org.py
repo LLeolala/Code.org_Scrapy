@@ -1,32 +1,23 @@
-from selenium.webdriver.common.keys import Keys
 import os
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
-import time
 
-def code_org(name, bir):
+
+
+def code_org(name, driver):
     # Initialize WebDriver with explicit wait setup
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     wait = WebDriverWait(driver, 10)  # 10-second timeout for all waits
     
     load_dotenv()
     
     # Environment variable retrieval
-    account = os.getenv('CODE_ORG_ACCOUNT')
     class_name = os.getenv('CODE_ORG_CLASS_NAME')
-    password = os.getenv('CODE_ORG_PASSWORD')
     
-    if not all([account, class_name, password]):
+    if not class_name:
         print('Error: Missing environment variables', 
-              f'Account: {account}', 
-              f'Class Name: {class_name}', 
-              f'Password: {"*" * len(password) if password else "None"}')
+              f'Class Name: {class_name}')
         return
 
     # Navigate to website
@@ -39,47 +30,40 @@ def code_org(name, bir):
             EC.presence_of_all_elements_located((By.XPATH, "//span[@aria-hidden='true' and text()='×']"))
         )
         if close_buttons:
-            close_buttons[1].click()
+            close_buttons[0].click()
     except Exception as e:
         print("No close button found or error closing:", str(e))
 
     # Sign in process
     signin_button = wait.until(
-        EC.element_to_be_clickable((By.ID, 'signin_button'))
+    EC.element_to_be_clickable((By.ID, 'signin_button'))
     )
     signin_button.click()
-
-    # Login
-    login_email = wait.until(
-        EC.presence_of_element_located((By.ID, 'user_login'))
-    )
-    login_email.send_keys(account)
-
-    login_password = driver.find_element(By.ID, 'user_password')
-    login_password.send_keys(password)
-
-    signin_submit = wait.until(
-        EC.element_to_be_clickable((By.ID, 'signin-button'))
-    )
-    signin_submit.click()
+    #手動登入(第一次登入):
+    #input("第一次手動登入完畢後 請輸入任何東西: ")
+    #print("登入完畢")
+    try:
+        close_button = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//button[.//i[@data-testid='font-awesome-v6-icon' and contains(@class, 'fa-times')]]"))
+        )
+        close_button.click()
+        print("成功使用XPath點擊關閉按鈕")
+        
+    except:
+            print("使用XPath方法失敗，嘗試其他方法...")
 
     # Navigate to class
-    link = wait.until(
-        EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, class_name))
+    element = wait.until(
+        EC.presence_of_element_located((By.LINK_TEXT, "test_class"))
     )
-    link.click()
+    element.click()
 
     # Navigate to Manage Students
     elements = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "l73WWV9XeuD321FND147")))
     element=elements[8]
     element.click()
 
-
-    # Prepare student name
-    no_years_bir = int(bir) % 10000
-    if(no_years_bir // 1000 < 1):
-        no_years_bir = str('0') + str( no_years_bir)
-    name = str(name) + str(no_years_bir)
+    
 
     # Input student name
     student_name = wait.until(
